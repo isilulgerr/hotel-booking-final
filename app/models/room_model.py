@@ -8,3 +8,4 @@ class Room(db.Model):
     price = db.Column(db.Float, nullable=False)
     available_from = db.Column(db.Date, nullable=False)
     available_to = db.Column(db.Date, nullable=False)
+
