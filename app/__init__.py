@@ -9,6 +9,9 @@ load_dotenv()
 db = SQLAlchemy()
 jwt = JWTManager()
 
+# 📌 MODELİ EN ÜSTE TAŞIYORUZ — create_app dışında!
+from app.models import Room  # Bunu create_app dışına aldık ✅
+
 def create_app():
     app = Flask(__name__)
     app.config["JWT_SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -26,6 +29,10 @@ def create_app():
     from app.routes.notification_routes import notification_bp
     from app.routes.recommendation_routes import recommendation_bp
     from app.routes.hotel_routes import hotel_bp
+    from app.routes.agent_routes import agent_bp
+    from app.routes.gateway_routes import gateway_bp
+    app.register_blueprint(gateway_bp)
+    app.register_blueprint(agent_bp)
     app.register_blueprint(hotel_bp)
     app.register_blueprint(recommendation_bp)
     app.register_blueprint(notification_bp)
@@ -37,5 +44,5 @@ def create_app():
     @app.route("/hello")
     def hello():
         return "Hello from Hotel Booking API!"
-
+    
     return app
