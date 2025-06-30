@@ -18,7 +18,6 @@ function HotelDetailPage() {
     });
     const [selectedRoomId, setSelectedRoomId] = useState(null);
 
-    // Otel detaylarını çek
     useEffect(() => {
         if (!hotelName) {
             setError("Hotel name is missing in URL.");
@@ -28,10 +27,7 @@ function HotelDetailPage() {
         const fetchHotelDetails = async () => {
             setIsLoading(true);
             try {
-                // 🔥 ÖNEMLİ: hotelName'i tekrar encode ETMEYİN, zaten encode edilmiş geliyor!
                 const res = await axios.get(`http://127.0.0.1:5000/hotel/${hotelName}`);
-                console.log("API Response:", res.data);
-
                 if (!res.data || res.data.length === 0) {
                     setError("No rooms found for this hotel.");
                 } else {
@@ -47,7 +43,6 @@ function HotelDetailPage() {
         fetchHotelDetails();
     }, [hotelName]);
 
-    // Yorumları çek
     const fetchComments = async (roomId) => {
         try {
             const res = await axios.get(`http://127.0.0.1:5000/room-comments/${roomId}`);
@@ -58,7 +53,6 @@ function HotelDetailPage() {
         }
     };
 
-    // Yorum ekle
     const handleAddComment = async (e) => {
         e.preventDefault();
         try {
@@ -76,33 +70,18 @@ function HotelDetailPage() {
                 created_at: new Date().toISOString()
             };
 
-            console.log("Submitting comment:", commentData); // Debug log
+            const response = await axios.post("http://127.0.0.1:5000/add-comment", commentData);
+            if (response.data.error) throw new Error(response.data.error);
 
-            const response = await axios.post("http://127.0.0.1:5000/add-comment", commentData, {
-                timeout: 120000, // 2 dakika timeout
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (response.data.error) {
-                throw new Error(response.data.error);
-            }
-
-            alert("Yorum başarıyla eklendi!");
-            // Yorum listesini yenile
+            alert("Comment added successfully!");
             await fetchComments(selectedRoomId);
-
-            // Formu temizle (room_id hariç)
             setNewComment({
                 ...newComment,
                 user_name: "",
                 text: "",
                 rating: 5
             });
-
-            alert("Comment added successfully!");
         } catch (err) {
-            console.error("Error adding comment:", err);
             alert("Error adding comment: " + (err.response?.data?.message || err.message));
         }
     };
@@ -111,6 +90,39 @@ function HotelDetailPage() {
         setSelectedRoomId(roomId);
         setNewComment(prev => ({ ...prev, room_id: roomId }));
         fetchComments(roomId);
+    };
+    const token = "eyJhb..."; // Replace with actual token
+    const bookRoom = async (roomId) => {
+        const people = prompt("How many people?");
+        const checkIn = prompt("Check in date (YYYY-MM-DD)?");
+        const checkOut = prompt("Check out date (YYYY-MM-DD)?");
+
+        if (!people || !checkIn || !checkOut) {
+            alert("Please fill the blank spaces!");
+            return;
+        }
+
+        try {
+            const res = await axios.post("http://127.0.0.1:5000/book-room", {
+                room_id: roomId,
+                people,
+                check_in: checkIn,
+                check_out: checkOut
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (res.data.booking_id) {
+                alert(`✅ The booking is successful! Booking ID: ${res.data.booking_id}`);
+            } else if (res.data.error) {
+                alert(`❌ ${res.data.error}`);
+            }
+        } catch (err) {
+            console.error("Booking error:", err);
+            alert("Booking error accured");
+        }
     };
 
     return (
@@ -148,6 +160,8 @@ function HotelDetailPage() {
                                         <button onClick={() => handleRoomSelect(room.room_id)}>
                                             {selectedRoomId === room.room_id ? "Show Comments (Selected)" : "Show Comments"}
                                         </button>
+                                        <br />
+                                        <button onClick={() => bookRoom(room.room_id)}>Book it 🛎️</button>
                                     </td>
                                 </tr>
                             ))}
@@ -187,61 +201,50 @@ function HotelDetailPage() {
                                 )}
                             </div>
 
-                            <form onSubmit={handleAddComment} style={{ marginTop: "20px" }}>
+                            <form onSubmit={handleAddComment}>
                                 <h4>✍️ Add Comment</h4>
-                                <div style={{ marginBottom: "15px" }}>
-                                    <input
-                                        type="text"
-                                        placeholder="Your Name"
-                                        value={newComment.user_name}
-                                        onChange={(e) => setNewComment({ ...newComment, user_name: e.target.value })}
-                                        required
-                                        style={{ padding: "8px", width: "100%", maxWidth: "300px" }}
-                                    />
-                                </div>
-                                <div style={{ marginBottom: "15px" }}>
-                                    <select
-                                        value={newComment.service_type}
-                                        onChange={(e) => setNewComment({ ...newComment, service_type: e.target.value })}
-                                        style={{ padding: "8px" }}
-                                    >
-                                        <option value="room">Room</option>
-                                        <option value="service">Service</option>
-                                        <option value="cleaning">Cleaning</option>
-                                        <option value="food">Food</option>
-                                    </select>
-                                </div>
-                                <div style={{ marginBottom: "15px" }}>
-                                    <select
-                                        value={newComment.rating}
-                                        onChange={(e) => setNewComment({ ...newComment, rating: parseInt(e.target.value) })}
-                                        style={{ padding: "8px" }}
-                                    >
-                                        {[1, 2, 3, 4, 5].map(num => (
-                                            <option key={num} value={num}>{num} Stars</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div style={{ marginBottom: "15px" }}>
-                                    <textarea
-                                        placeholder="Your Comment"
-                                        value={newComment.text}
-                                        onChange={(e) => setNewComment({ ...newComment, text: e.target.value })}
-                                        required
-                                        style={{ padding: "8px", width: "100%", minHeight: "100px" }}
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    style={{
-                                        padding: "10px 20px",
-                                        backgroundColor: "#4CAF50",
-                                        color: "white",
-                                        border: "none",
-                                        borderRadius: "4px",
-                                        cursor: "pointer"
-                                    }}
+                                <input
+                                    type="text"
+                                    placeholder="Your Name"
+                                    value={newComment.user_name}
+                                    onChange={(e) => setNewComment({ ...newComment, user_name: e.target.value })}
+                                    required
+                                    style={{ padding: "8px", width: "100%", maxWidth: "300px", marginBottom: "10px" }}
+                                />
+                                <select
+                                    value={newComment.service_type}
+                                    onChange={(e) => setNewComment({ ...newComment, service_type: e.target.value })}
+                                    style={{ padding: "8px", marginBottom: "10px" }}
                                 >
+                                    <option value="room">Room</option>
+                                    <option value="service">Service</option>
+                                    <option value="cleaning">Cleaning</option>
+                                    <option value="food">Food</option>
+                                </select>
+                                <select
+                                    value={newComment.rating}
+                                    onChange={(e) => setNewComment({ ...newComment, rating: parseInt(e.target.value) })}
+                                    style={{ padding: "8px", marginBottom: "10px" }}
+                                >
+                                    {[1, 2, 3, 4, 5].map(num => (
+                                        <option key={num} value={num}>{num} Stars</option>
+                                    ))}
+                                </select>
+                                <textarea
+                                    placeholder="Your Comment"
+                                    value={newComment.text}
+                                    onChange={(e) => setNewComment({ ...newComment, text: e.target.value })}
+                                    required
+                                    style={{ padding: "8px", width: "100%", minHeight: "100px", marginBottom: "10px" }}
+                                />
+                                <button type="submit" style={{
+                                    padding: "10px 20px",
+                                    backgroundColor: "#4CAF50",
+                                    color: "white",
+                                    border: "none",
+                                    borderRadius: "4px",
+                                    cursor: "pointer"
+                                }}>
                                     Submit Comment
                                 </button>
                             </form>
