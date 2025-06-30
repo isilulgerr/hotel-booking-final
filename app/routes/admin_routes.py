@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required
-from app.services.admin_service import add_room_to_db
+from app.services.admin_service import add_room_to_db, update_room_in_db
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -33,3 +33,26 @@ def add_room():
             "price": room.price
         }
     ), 201
+
+
+@admin_bp.route("/admin/update-room/<int:room_id>", methods=["PUT"])
+@jwt_required()
+def update_room(room_id):
+    data = request.get_json()
+    updated_room = update_room_in_db(room_id, data)
+
+    if not updated_room:
+        return jsonify(msg="Room not found"), 404
+
+    return jsonify(
+        msg="Room updated successfully",
+        room={
+            "id": updated_room.id,
+            "hotel_name": updated_room.hotel_name,
+            "city": updated_room.city,
+            "price": updated_room.price,
+            "capacity": updated_room.capacity,
+            "available_from": str(updated_room.available_from),
+            "available_to": str(updated_room.available_to)
+        }
+    ), 200
