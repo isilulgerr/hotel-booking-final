@@ -21,13 +21,25 @@ def book_room_logic(room_id, people, check_in, check_out):
             return {"error": "Room not available in selected dates"}
 
         room.capacity -= people
+
+        # Assuming you have a Booking model, create and save a new booking
+        from app.models.booking_model import Booking  # Adjust import if needed
+        new_booking = Booking()
+        new_booking.check_in_date = check_in_date
+        new_booking.check_out_date = check_out_date
+        new_booking.people = people
+        new_booking.room_id = room_id
+
+        db.session.add(new_booking)
         db.session.commit()
 
         return {
-            "msg": "Room successfully booked",
-            "room_id": room.id,
-            "remaining_capacity": room.capacity
+            "booking_id": new_booking.id,
+            "room_id": room_id,
+            "check_in": check_in,
+            "check_out": check_out
         }
+
 
     except Exception as e:
         return {"error": str(e)}

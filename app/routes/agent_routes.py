@@ -1,5 +1,3 @@
-# app/routes/agent_routes.py
-
 from flask import Blueprint, request, jsonify
 from app.services.ai_agent import parse_intent_message
 
@@ -13,5 +11,9 @@ def ai_parse():
     if not message:
         return jsonify({"error": "Missing message"}), 400
 
-    result = parse_intent_message(message)
-    return jsonify(result), 200
+    try:
+        result = parse_intent_message(message)
+        return jsonify(result), 200
+    except Exception as e:
+        print("🔥 Agent error:", str(e))
+        return jsonify({"error": "AI agent internal error"}), 500

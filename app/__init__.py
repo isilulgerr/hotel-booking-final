@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 import os
-
+from flask_cors import CORS
 load_dotenv()
 
 db = SQLAlchemy()
@@ -14,6 +14,7 @@ from app.models import Room  # Bunu create_app dışına aldık ✅
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     app.config["JWT_SECRET_KEY"] = os.getenv("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -44,5 +45,8 @@ def create_app():
     @app.route("/hello")
     def hello():
         return "Hello from Hotel Booking API!"
-    
+    CORS(app, resources={
+        r"/hotel/*": {"origins": "http://localhost:3000"},
+        r"/add-comment": {"origins": "*"}
+    })
     return app
