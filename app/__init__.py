@@ -9,8 +9,7 @@ load_dotenv()
 db = SQLAlchemy()
 jwt = JWTManager()
 
-# 📌 MODELİ EN ÜSTE TAŞIYORUZ — create_app dışında!
-from app.models import Room  # Bunu create_app dışına aldık ✅
+from app.models import Room  
 
 def create_app():
     app = Flask(__name__)
