@@ -12,3 +12,4 @@ redis
 psycopg2-binary
 flask_sqlalchemy
 openai>=1.0.0
+Flask-Cors 
