@@ -43,7 +43,12 @@ const AdminPanel = () => {
   const handleAddSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://127.0.0.1:5000/hotels/add-room", addForm);
+      const res = await axios.post("http://localhost:8000/admin/admin/add-room", addForm, {
+        headers: {
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTM4NTA5OSwianRpIjoiYWNhMTE1MzMtZWZjNC00N2EwLWFhNmMtOTYyODk3MDhhOTVlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxMzg1MDk5LCJjc3JmIjoiM2U5MTBlYTktY2RiNC00MmFkLTk2MTgtNzgxNzNhNzM3YzZjIiwiZXhwIjoxNzUxMzg1OTk5fQ.kwhkWiPH6wiZpm_efrk0gACrdSoJKhPYRMoXFPj8Ads" // geçerli JWT
+        }
+      });
+
       setAddResult(res.data);
     } catch (err) {
       console.error("Room creation error:", err);
@@ -56,11 +61,11 @@ const AdminPanel = () => {
     try {
       const { room_id, ...payload } = updateForm;
       const res = await axios.put(
-        `http://127.0.0.1:5000/admin/update-room/${room_id}`,
+        `http://localhost:8000/admin/update-room/${room_id}`,
         payload,
         {
           headers: {
-            Authorization: "Bearer YOUR TOKEN" // TOKEN!
+            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTM4NDQ0OCwianRpIjoiMWVkNmYyYjMtZGIxZi00NWZmLWE5NGMtZGUwNjU4NWNhNTA2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxMzg0NDQ4LCJjc3JmIjoiZTQ2ZTM2MWItNWJkYS00MTg3LWI0ZjctMzU2ZmI2YTNhZjUyIiwiZXhwIjoxNzUxMzg1MzQ4fQ.LgYsI3K6sYvrW4yOA6i0CRt8c-qvWO-hDeK2yQnisOQ" // TOKEN!
           }
         }
       );
@@ -90,7 +95,8 @@ const AdminPanel = () => {
 
       {addResult && (
         <p style={{ color: addResult.room_id ? "green" : "red", marginTop: "1rem" }}>
-          {addResult.room_id ? `✅ Room added! ID: ${addResult.room_id}` : `❌ ${addResult.error}`}
+          {addResult.room ? `✅ Room added! ID: ${addResult.room.id}` : `❌ ${addResult.error || 'Unknown error'}`}
+
         </p>
       )}
 

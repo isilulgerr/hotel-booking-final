@@ -42,7 +42,7 @@ function SearchHotelPage() {
 
   const handleChatSubmit = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:5000/gateway/message", { message });
+      const res = await axios.post("http://localhost:8000/gateway/message", { message });
       setChatResponse(res.data);
     } catch (err) {
       console.error("Chatbot error:", err);
@@ -93,8 +93,9 @@ function SearchHotelPage() {
       const formattedCheckOut = convertToIso(checkOut);
       
       // 1. First fetch hotels from API
-      const res = await axios.get("http://127.0.0.1:5000/hotels/search", {
+      const res = await axios.get("http://localhost:8000/search/search-hotels", {
         params: { city, check_in: formattedCheckIn, check_out: formattedCheckOut, people },
+        headers: token ? { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTM5MzQxMiwianRpIjoiYTc0MjNlYzktZjg1ZS00YjE0LWJjNjktNDkzN2JmOWEyYWJiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxMzkzNDEyLCJjc3JmIjoiYzZiNzIxNTYtMjgzZC00ZjRjLThkMjctMmZmMjJiMGRjNmYzIiwiZXhwIjoxNzUxMzk0MzEyfQ.n105s5H0Rb9Vck7u4TfrlAVt7Ev7wbTSYfH0IPl2L04` } : {}
       });
 
       debugMessages.push(`${res.data.results.length} hotels found`);

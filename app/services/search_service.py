@@ -1,6 +1,11 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
 from app.models.room_model import Room
 from app import db
 from datetime import datetime
+from flask import Flask
 
 def search_rooms(city, check_in, check_out, people, is_logged_in):
     check_in_date = datetime.strptime(check_in, "%Y-%m-%d").date()

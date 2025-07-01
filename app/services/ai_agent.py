@@ -6,6 +6,10 @@ import re
 from datetime import datetime
 from openai import OpenAI
 
+from dotenv import load_dotenv  
+
+load_dotenv()  
+print("✅ Loaded OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def parse_intent_message(message: str):

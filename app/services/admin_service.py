@@ -2,6 +2,31 @@ from app.models.room_model import Room
 from app import db
 from datetime import datetime
 
+from flask import Flask
+from flask_jwt_extended import JWTManager
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "super-secret-key"  # ŞİMDİ SABİTLE
+app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+app.config["JWT_HEADER_NAME"] = "Authorization"
+app.config["JWT_HEADER_TYPE"] = "Bearer"
+
+jwt = JWTManager(app)
+
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+    app.run(port=5001, debug=True)
+
+
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
 def add_room_to_db(data):
     room = Room(
         hotel_name=data.get("hotel_name"),

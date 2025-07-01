@@ -18,4 +18,4 @@ def search_hotels():
         return jsonify({"msg": "Missing query parameters"}), 400
 
     results = search_rooms(city, check_in, check_out, people, is_logged_in)
-    return jsonify(results)
+    return jsonify({ "results": results })

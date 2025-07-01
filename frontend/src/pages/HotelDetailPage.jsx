@@ -29,7 +29,7 @@ function HotelDetailPage() {
         const fetchHotelDetails = async () => {
             setIsLoading(true);
             try {
-                const res = await axios.get(`http://127.0.0.1:5000/hotel/${hotelName}`);
+                const res = await axios.get(`http://localhost:8000/hotel/${hotelName}`);
                 if (!res.data || res.data.length === 0) {
                     setError("No rooms found for this hotel.");
                 } else {
@@ -47,7 +47,7 @@ function HotelDetailPage() {
 
     const fetchComments = async (roomId) => {
         try {
-            const res = await axios.get(`http://127.0.0.1:5000/room-comments/${roomId}`);
+            const res = await axios.get(`http://localhost:8000/comments/room-comments/${roomId}`);
             setComments(res.data.comments);
             setAverages(res.data.service_averages);
         } catch (err) {
@@ -72,7 +72,7 @@ function HotelDetailPage() {
                 created_at: new Date().toISOString()
             };
 
-            const response = await axios.post("http://127.0.0.1:5000/add-comment", commentData);
+            const response = await axios.post("http://localhost:8000/comments/add-comment", commentData);
             if (response.data.error) throw new Error(response.data.error);
 
             alert("Comment added successfully!");
@@ -105,7 +105,7 @@ function HotelDetailPage() {
         }
 
         try {
-            const res = await axios.post("http://127.0.0.1:5000/book-room", {
+            const res = await axios.post("http://localhost:8000/booking/book-room", {
                 room_id: roomId,
                 people,
                 check_in: checkIn,
