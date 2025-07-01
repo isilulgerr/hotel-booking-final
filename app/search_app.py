@@ -3,7 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from flask import Flask
 from flask_jwt_extended import JWTManager
-from app.routes.search_routes import search_bp
+from search_service.routes.search_routes import search_bp
 from app import db
 from dotenv import load_dotenv
 

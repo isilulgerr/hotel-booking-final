@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
-from app.models.room_model import Room
-from app.models.booking_model import Booking
-from app.services.notification_service import notify_admin, notify_user
+from hotel_service.models.room_model import Room
+from book_service.models.booking_model import Booking
+from notification_service.services.notification_service import notify_admin, notify_user
 from app.services.reservation_queue import pull_all_reservations
 from app import db
 
@@ -30,7 +30,7 @@ def run_nightly_check():
     print("✅ Nightly task finished.\n")
 
 from app.services.reservation_queue import pull_all_reservations
-from app.services.notification_service import notify_user
+from notification_service.services.notification_service import notify_user
 
 def process_reservation_queue():
     print("📦 Pulling reservation queue...")

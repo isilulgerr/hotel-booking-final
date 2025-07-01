@@ -22,14 +22,14 @@ def create_app():
     jwt.init_app(app)
 
     # Blueprints
-    from app.routes.admin_routes import admin_bp
-    from app.routes.search_routes import search_bp
-    from app.routes.book_routes import book_bp
-    from app.routes.comments_routes import comments_bp
-    from app.routes.notification_routes import notification_bp
+    from admin_service.routes.admin_routes import admin_bp
+    from search_service.routes.search_routes import search_bp
+    from book_service.routes.book_routes import book_bp
+    from comments_service.routes.comments_routes import comments_bp
+    from notification_service.routes.notification_routes import notification_bp
     from app.routes.recommendation_routes import recommendation_bp
-    from app.routes.hotel_routes import hotel_bp
-    from app.routes.agent_routes import agent_bp
+    from hotel_service.routes.hotel_routes import hotel_bp
+    from agent_service.routes.agent_routes import agent_bp
     from app.routes.gateway_routes import gateway_bp
     app.register_blueprint(gateway_bp)
     app.register_blueprint(agent_bp)

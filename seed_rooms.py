@@ -1,7 +1,7 @@
 # seed_rooms.py
 
 from app import create_app, db
-from app.models.room_model import Room
+from hotel_service.models.room_model import Room
 from datetime import date, timedelta
 import random
 
