@@ -1,5 +1,5 @@
 from app import db
-from hotel_service.models.room_model import Room
+from models.room_model import Room
 from datetime import datetime
 
 def book_room_logic(room_id, people, check_in, check_out):

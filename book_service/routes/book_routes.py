@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
-from book_service.services.book_service import book_room_logic
+from services.book_service import book_room_logic
 
 book_bp = Blueprint("book", __name__)
 
