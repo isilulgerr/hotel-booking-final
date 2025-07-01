@@ -17,6 +17,8 @@ function HotelDetailPage() {
         service_type: "room"
     });
     const [selectedRoomId, setSelectedRoomId] = useState(null);
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTMyOTIxOCwianRpIjoiYWQ2ZjA2ZjAtZmI3Ni00NmY2LTg0ZDAtZDY1ZThiMmFmY2JiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxMzI5MjE4LCJjc3JmIjoiMTZkZGMzYWMtNDVkMi00ZWI1LThkNGYtY2RjYTVkZjJhZmE3IiwiZXhwIjoxNzUxMzMwMTE4fQ.qmpvhfWPAoRVEuV8ca8m7ODiXlQLFBEhOs_e7-0GYBM"; // elle girilen token
+    const isLoggedIn = Boolean(token);
 
     useEffect(() => {
         if (!hotelName) {
@@ -91,7 +93,7 @@ function HotelDetailPage() {
         setNewComment(prev => ({ ...prev, room_id: roomId }));
         fetchComments(roomId);
     };
-    const token = "eyJhb..."; // Replace with actual token
+
     const bookRoom = async (roomId) => {
         const people = prompt("How many people?");
         const checkIn = prompt("Check in date (YYYY-MM-DD)?");
@@ -153,6 +155,18 @@ function HotelDetailPage() {
                                     <td>{room.room_id}</td>
                                     <td>{room.city}</td>
                                     <td>{room.capacity}</td>
+                                    <td>
+                                        {isLoggedIn ? (
+                                            <>
+                                                <span style={{ color: "green", fontWeight: "bold" }}>
+                                                    {(room.price * 0.85).toFixed(2)}₺
+                                                </span>{" "}
+                                                <s style={{ color: "gray" }}>{room.price}₺</s>
+                                            </>
+                                        ) : (
+                                            <>{room.price}₺</>
+                                        )}
+                                    </td>
                                     <td>{room.price}₺</td>
                                     <td>{room.available_from}</td>
                                     <td>{room.available_to}</td>
@@ -163,6 +177,7 @@ function HotelDetailPage() {
                                         <br />
                                         <button onClick={() => bookRoom(room.room_id)}>Book it 🛎️</button>
                                     </td>
+
                                 </tr>
                             ))}
                         </tbody>
