@@ -13,3 +13,4 @@ psycopg2-binary
 flask_sqlalchemy
 openai>=1.0.0
 Flask-JWT-Extended
+Flask-Cors
