@@ -1,4 +1,4 @@
-from hotel_service.models.room_model import Room
+from models.room_model import Room
 from app import db
 from datetime import datetime
 
