@@ -14,3 +14,4 @@ flask_sqlalchemy
 openai>=1.0.0Flask
 flask-cors
 Flask-SQLAlchemy
+flask_jwt_extended
