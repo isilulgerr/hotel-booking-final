@@ -23,7 +23,7 @@ def book_room_logic(room_id, people, check_in, check_out):
         room.capacity -= people
 
         # Assuming you have a Booking model, create and save a new booking
-        from book_service.models.booking_model import Booking  # Adjust import if needed
+        from models.booking_model import Booking  # Adjust import if needed
         new_booking = Booking()
         new_booking.check_in_date = check_in_date
         new_booking.check_out_date = check_out_date
