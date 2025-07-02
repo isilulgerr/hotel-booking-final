@@ -11,13 +11,13 @@ CORS(app)  # 👈 Bu satırı mutlaka ekle
 # Servis URL'leri (LOCAL için ayarlıdır, production'da değiştirebilirsin)
 SERVICE_MAP = {
     "admin": "https://admin-service-8014.onrender.com",
-    "agent": "http://localhost:5002",
-    "booking": "http://localhost:5003",
-    "comments": "http://localhost:5004",
-    "hotel": "http://localhost:5005",
-    "notification": "http://localhost:5006",
+    "agent": "https://agent-service-v59b.onrender.com",
+    "booking": "https://book-service-9dtv.onrender.com",
+    "comments": "https://comments-service-o4l5.onrender.com",
+    "hotel": "https://hotel-service-zmjn.onrender.com",
+    "notification": "https://notification-service-ig42.onrender.com",
     "recommendation": "http://localhost:5007",
-    "search": "http://localhost:5008"
+    "search": "https://search-service-tknt.onrender.com"
 }
 
 # JWT token'ı varsa al
