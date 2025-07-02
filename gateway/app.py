@@ -10,7 +10,7 @@ CORS(app)  # 👈 Bu satırı mutlaka ekle
 
 # Servis URL'leri (LOCAL için ayarlıdır, production'da değiştirebilirsin)
 SERVICE_MAP = {
-    "admin": "https://admin-service-8014.onrender.com/api/v1/admin",
+    "admin": "https://admin-service-8014.onrender.com",
     "agent": "https://agent-service-v59b.onrender.com",
     "booking": "https://book-service-9dtv.onrender.com",
     "comments": "https://comments-service-o4l5.onrender.com",
