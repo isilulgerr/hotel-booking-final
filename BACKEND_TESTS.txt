@@ -1,0 +1,108 @@
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl -X POST https://gateway-final.onrender.com/api/v1/admin/login \
+  -H "Content-Type: application/json" \
+  -d "{\"username\": \"admin\", \"password\": \"1234\"}"
+{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTQ2ODc1MiwianRpIjoiZDNmYzg4YzktZWE3My00OWFjLTlmMzktYTY0OTI0MDFjMjllIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxNDY4NzUyLCJjc3JmIjoiZWVhNmI2YzYtODNkOS00OGMxLTkwZDQtNjMwY2Y4ZmQ2ODFlIiwiZXhwIjoxNzUxNDY5NjUyfQ.CyjMeR1P4sfGLfsx6LNWLC2e726c0Ka8is9vjEr16KU"}
+-LOGIN TESTI GIT BASH
+
+https://gateway-final.onrender.com/api/v1/admin/add-room
+{
+  "hotel_name": "Hilton Istanbul",
+  "city": "Istanbul",
+  "price": 3500,
+  "capacity": 2,
+  "available_from": "2025-07-05",
+  "available_to": "2025-07-10"
+}
+-ADD ROOM TESTİ HEADERLI
+
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl -X PUT https://gateway-final.onrender.com/api/v1/admin/update-room/73 -H "Content-Type: application/json" -H "Authorization: Bearer eyJh" -d '{"hotel_name": "Updated Hotel Name", "city": "Istanbul", "price": 900, "capacity": 4, "available_from": "2025-07-05", "available_to": "2025-08-05"}' 
+{"msg":"Room updated successfully","room":{"available_from":"2025-07-05","available_to":"2025-08-05","capacity":4,"city":"Istanbul","hotel_name":"Updated Hotel Name","id":73,"price":900.0}}
+=UPDATE ROOM TEST GIT BASH
+
+POST https://gateway-final.onrender.com/api/v1/book/book-room
+{
+  "room_id": 73,
+  "people": 1,
+  "check_in": "2025-07-10",
+  "check_out": "2025-07-15"
+}
+-BOOK ROOM TEST POSTMAN
+
+POST https://gateway-final.onrender.com/api/v1/comments/add
+{
+  "hotel_id": "istanbul_hotel_1",
+  "user_name": "Işıl",
+  "comment": "Oda temizdi, memnun kaldık.",
+  "ratings": {
+    "service": 5,
+    "cleanliness": 4
+  }
+}
+- ADD COMMENT POSTMAN TEST
+
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl https://gateway-final.onrender.com/api/v1/comments/istanbul_hotel_1
+[{"comment":"Oda temizdi, memnun kald\u0131k.","hotel_id":"istanbul_hotel_1","ratings":{"cleanliness":4,"service":5},"user_name":"I\u015f\u0131l"}]
+- ODANIN COMMENTLERI TEST GIT BASH
+
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl https://gateway-final.onrender.com/api/v1/comments/summary/istanbul_hotel_1
+{"averages":{"cleanliness":4.0,"service":5.0},"total_comments":1}
+-AVERAGE OF ROOM TEST GIT BASH
+
+POST https://gateway-final.onrender.com/api/v1/hotel/hotels/add-room
+{
+    "hotel_name": "Sunshine Hotel",
+    "city": "Antalya",
+    "district": "Lara",
+    "rating": 4.6,
+    "capacity": 3,
+    "price": 1200,
+    "available_from": "2025-07-10",
+    "available_to": "2025-08-10",
+    "amenities": "wifi,pool,breakfast"
+  }
+- ADD ROOM HOTELS TEST POSTMAN
+
+silu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl "https://gateway-final.onrender.com/api/v1/hotel/hotels/search?city=Antalya&check_in=2025-07-15&check_out=2025-07-20&people=2"
+{"results":[{"amenities":"wifi,pool,breakfast","available_from":"2025-07-10","available_to":"2025-08-10","capacity":3,"city":"Antalya","district":"Lara","hotel_name":"Sunshine Hotel","price":1200.0,"rating":4.6,"room_id":110}]}
+-
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl https://gateway-final.onrender.com/api/v1/hotel/hotel/Sunshine%20Hotel
+[{"available_from":"2025-07-10","available_to":"2025-08-10","capacity":3,"city":"Antalya","hotel_name":"Sunshine Hotel","price":1200.0,"room_id":110}]
+- HOTEL SEARCH TEST GIT BASH
+
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl "https://gateway-final.onrender.com/api/v1/search/search-hotels?city=Antalya&check_in=2025-07-15&check_out=2025-07-20&people=2"
+{"results":[{"available_from":"2025-07-10","available_to":"2025-08-10","capacity":3,"city":"Antalya","hotel_name":"Sunshine Hotel","id":110,"price":1200.0}]}
+- SEARCH SERVICE TEST GITBASH
+
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl -X POST https://agent-service-v59b.onrender.com/api/v1/agent/ai/parse \
+  -H "Content-Type: application/json" \
+  -d '{"message": "I want to find a hotel in Antalya from July 15 to July 20 for 2 people"}'
+{"check_in":"2025-07-15","check_out":"2025-07-20","city":"Antalya","intent":"search_hotel","people":2}
+- Aİ PARSE TEST
+
+curl -X POST https://gateway-final.onrender.com/gateway/message \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <TOKEN>" \
+  -d '{"message": "I want to book room 110 from July 15 to July 20 for 2 people"}'
+isilu@IUPC MINGW64 ~/OneDrive/Masaüstü/hotel-booking-final (main)
+$ curl -X POST https://gateway-final.onrender.com/gateway/message \
+  -H "Content-Type: application/json" \
+  -d '{"message": "I want to find a hotel in Antalya from July 15 to July 20 for 2 people"}'
+{"intent":"search_hotel","parsed":{"check_in":"2025-07-15","check_out":"2025-07-20","city":"Antalya","intent":"search_hotel","people":2},"recommendations":{"results":[{"available_from":"2025-07-10","available_to":"2025-08-10","capacity":3,"city":"Antalya","hotel_name":"Sunshine Hotel","id":110,"price":1200.0}]}}
+-AI MESSAGE TESTLERİ
+
+
+
+
+
+TEST:curl -X POST https://booking-service-xyz.onrender.com/api/v1/book/book-room \
+  -H "Content-Type: application/json" \
+  -d '{"room_id": 110, "people": 2, "check_in": "2025-07-15", "check_out": "2025-07-20"}'
+
