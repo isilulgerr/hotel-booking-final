@@ -64,7 +64,8 @@ def handle_ai_message():
             return jsonify({"error": "Empty message"}), 400
 
         # Intent çıkarımı
-        ai_resp = requests.post(f"{SERVICE_MAP['agent']}/ai/parse", json={"message": user_msg})
+        ai_resp = requests.post(f"{SERVICE_MAP['agent']}/api/v1/agent/ai/parse", json={"message": user_msg})
+
         parsed = ai_resp.json()
 
         if "intent" not in parsed:
