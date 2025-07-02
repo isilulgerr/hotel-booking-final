@@ -3,9 +3,6 @@
 from datetime import datetime
 
 def notify_user(booking_data):
-    """
-    Kullanıcıya rezervasyon bildirimi gönder (simülasyon).
-    """
     username = booking_data.get("username", "Unknown User")
     hotel_name = booking_data.get("hotel_name", "Unknown Hotel")
     check_in = booking_data.get("check_in_date", "N/A")
@@ -32,9 +29,6 @@ def notify_user(booking_data):
 
 
 def notify_admin(room_id, hotel_name, remaining, total):
-    """
-    Hotel yöneticisine kapasite uyarısı gönder (simülasyon).
-    """
     percent = (remaining / total) * 100 if total > 0 else 0
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 

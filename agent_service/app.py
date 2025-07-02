@@ -9,9 +9,8 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
-# en sona ekle
+
 from routes.agent_routes import agent_bp
 app.register_blueprint(agent_bp, url_prefix="/api/v1/agent")
 
@@ -23,10 +22,10 @@ def parse_message():
     if not user_message:
         return jsonify({"error": "Missing message"}), 400
 
-    # OpenAI ChatCompletion ile niyet çözümle
+    # OpenAI ChatCompletion
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # ya da kendi fine-tuned modelin varsa onun ID'si
+            model="gpt-3.5-turbo",  
             messages=[
                 {
                     "role": "system",

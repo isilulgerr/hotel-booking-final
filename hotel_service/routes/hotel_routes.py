@@ -24,13 +24,13 @@ def add_room():
         room = Room(
             hotel_name=data["hotel_name"],
             city=data["city"],
-            district=data.get("district"),  # opsiyonel
-            rating=data.get("rating"),      # opsiyonel
+            district=data.get("district"),  
+            rating=data.get("rating"),      
             capacity=data["capacity"],
             price=data["price"],
             available_from=datetime.strptime(data["available_from"], "%Y-%m-%d"),
             available_to=datetime.strptime(data["available_to"], "%Y-%m-%d"),
-            amenities=data.get("amenities")  # opsiyonel
+            amenities=data.get("amenities") 
         )
 
         db.session.add(room)

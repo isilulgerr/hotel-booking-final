@@ -10,11 +10,9 @@ import json
 import sys
 from threading import Thread
 
-# Gerekli yollar
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from utils import check_hotel_capacities, send_reservation_notification
 
-# .env yükle
 load_dotenv()
 
 # Flask App
@@ -25,12 +23,10 @@ CORS(app)
 def health():
     return {"status": "ok"}
 
-# 🕓 GECELİK OTOMATİK GÖREV
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=check_hotel_capacities, trigger="interval", hours=24)
 scheduler.start()
 
-# 📨 RABBITMQ DINLEYICI
 def start_rabbitmq_listener():
     Thread(target=start_rabbitmq_listener, daemon=True).start()
     try:
@@ -70,7 +66,6 @@ def start_rabbitmq_listener():
     print("📡 RabbitMQ listener started.")
     channel.start_consuming()
 
-# 🔥 Uygulama Başlat
 if __name__ == "__main__":
     Thread(target=start_rabbitmq_listener).start()
     app.run(debug=True, use_reloader=False)

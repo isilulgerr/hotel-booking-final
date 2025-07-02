@@ -8,7 +8,6 @@ def recommend_hotels():
     city = data.get("city")
     budget = data.get("budget")
 
-    # Dummy AI logic (yerine gerçek model entegrasyonu yapılabilir)
     recommendations = [
         {
             "hotel_name": f"{city} Budget Inn",

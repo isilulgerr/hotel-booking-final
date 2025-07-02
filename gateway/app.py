@@ -6,9 +6,9 @@ app = Flask(__name__)
 CORS(app)
 @app.after_request
 def remove_encoding_headers(response):
-    response.headers.pop('Content-Encoding', None)  # 💥 Çıkar
+    response.headers.pop('Content-Encoding', None)  
     return response
-# 🔗 Servis URL'leri (base root, path eklenecek)
+
 SERVICE_MAP = {
     "admin": "https://admin-service-8014.onrender.com",
     "agent": "https://agent-service-v59b.onrender.com",
@@ -16,11 +16,10 @@ SERVICE_MAP = {
     "comments": "https://comments-service-o4l5.onrender.com",
     "hotel": "https://hotel-service-zmjn.onrender.com",
     "notification": "https://notification-service-ig42.onrender.com",
-    "recommendation": "http://localhost:5007",  # henüz dışarı açık değil
+    "recommendation": "http://localhost:5007", 
     "search": "https://search-service-tknt.onrender.com"
 }
 
-# 🛡️ Authorization varsa al
 def forward_headers():
     token = request.headers.get("Authorization")
     headers = {"Content-Type": "application/json"}
@@ -28,13 +27,11 @@ def forward_headers():
         headers["Authorization"] = token
     return headers
 
-# 🔁 Ana Gateway Proxy
 @app.route("/api/v1/<service>/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
 def proxy(service, path):
     if service not in SERVICE_MAP:
         return jsonify({"error": "Unknown service"}), 404
 
-    # 🌐 Versiyon ve servis adı ile URL oluştur
     target_url = f"{SERVICE_MAP[service]}/api/v1/{service}/{path}"
     method = request.method
     headers = forward_headers()
@@ -58,7 +55,6 @@ def proxy(service, path):
         print("❌ Proxy Error:", str(e))
         return jsonify({"error": "Gateway proxy failed"}), 500
 
-# 🤖 AI mesaj analiz ve yönlendirme
 @app.route("/gateway/message", methods=["POST"])
 def handle_ai_message():
     try:
@@ -66,7 +62,6 @@ def handle_ai_message():
         if not user_msg:
             return jsonify({"error": "Empty message"}), 400
 
-        # Intent çıkarımı
         ai_resp = requests.post(f"{SERVICE_MAP['agent']}/api/v1/agent/ai/parse", json={"message": user_msg})
 
         parsed = ai_resp.json()
@@ -76,7 +71,6 @@ def handle_ai_message():
 
         intent = parsed["intent"]
 
-        # 📍 Yönlendirme
         if intent == "search_hotel":
             search_resp = requests.get(f"{SERVICE_MAP['search']}/api/v1/search/search-hotels", params={
                 "city": parsed["city"],

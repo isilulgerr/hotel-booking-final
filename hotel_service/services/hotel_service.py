@@ -5,30 +5,28 @@ from models.room_model import Room
 from app import db
 import json
 from datetime import datetime
-from urllib.parse import unquote  # en üste ekle
+from urllib.parse import unquote  
 
 
 def get_hotel_details(hotel_name):
     cache_key = f"hotel:{hotel_name.lower()}"
     
-    # 1. Redis'te varsa getir
     cached = redis_client.get(cache_key)
     if cached:
         print("🔁 Cache hit!")
         return json.loads(cached)
 
 
-    #print("❌ Cache miss, pulling from DB...")
-    print(f"🔥 Searching DB for hotel: '{hotel_name}'")  # Logla
+    print(f"🔥 Searching DB for hotel: '{hotel_name}'")  
     rooms = Room.query.filter(
-        Room.hotel_name.ilike(f"%{hotel_name}%")  # Büyük/küçük harf duyarsız arama
+        Room.hotel_name.ilike(f"%{hotel_name}%")  
     ).all()
     if not rooms:
         return {"error": "Hotel not found"}, 404
 
     data = [{
     "room_id": room.id,
-    "hotel_name": room.hotel_name,  # ✅ EKLENECEK
+    "hotel_name": room.hotel_name,  
     "city": room.city,
     "capacity": room.capacity,
     "price": room.price,
@@ -36,7 +34,6 @@ def get_hotel_details(hotel_name):
     "available_to": str(room.available_to)
 } for room in rooms]
 
-    # Redis'e 1 saatlik TTL ile yaz
     redis_client.setex(cache_key, 3600, json.dumps(data))
 
     return data

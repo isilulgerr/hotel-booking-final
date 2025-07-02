@@ -10,7 +10,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.config["JWT_SECRET_KEY"] = "super-secret-key"  # ŞİMDİ SABİTLE
+app.config["JWT_SECRET_KEY"] = "super-secret-key"  
 app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 app.config["JWT_HEADER_NAME"] = "Authorization"
 app.config["JWT_HEADER_TYPE"] = "Bearer"
@@ -43,9 +43,8 @@ def add_room_to_db(data):
 def update_room_in_db(room_id, data):
     room = Room.query.get(room_id)
     if not room:
-        return None  # frontend'de "Room not found" gibi mesaj göstereceğiz
+        return None  
 
-    # Güncellenebilir alanlar:
     room.hotel_name = data.get("hotel_name", room.hotel_name)
     room.city = data.get("city", room.city)
     room.capacity = data.get("capacity", room.capacity)
