@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from search_service.services.search_service import search_rooms
+from services.search_service import search_rooms
 
 search_bp = Blueprint("search", __name__)
 

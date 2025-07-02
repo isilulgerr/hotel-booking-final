@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from hotel_service.models.room_model import Room
+from models.room_model import Room
 from app import db
 from datetime import datetime
 from flask import Flask
