@@ -87,7 +87,7 @@ def handle_ai_message():
             })
 
         elif intent == "book_room":
-            booking_resp = requests.post(f"{SERVICE_MAP['booking']}/api/v1/booking/book-room", json={
+            booking_resp = requests.post(f"{SERVICE_MAP['book']}/api/v1/book/book-room", json={
                 "room_id": parsed["room_id"],
                 "people": parsed["people"],
                 "check_in": parsed["check_in"],
