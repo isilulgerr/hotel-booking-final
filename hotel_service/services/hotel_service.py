@@ -1,6 +1,6 @@
 # app/services/hotel_service.py
 
-from app.extensions.redis_client import redis_client
+from extensions.redis_client import redis_client
 from models.room_model import Room
 from app import db
 import json
