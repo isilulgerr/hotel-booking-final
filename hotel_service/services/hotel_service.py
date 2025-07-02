@@ -1,7 +1,7 @@
 # app/services/hotel_service.py
 
 from app.extensions.redis_client import redis_client
-from hotel_service.models.room_model import Room
+from models.room_model import Room
 from app import db
 import json
 from datetime import datetime

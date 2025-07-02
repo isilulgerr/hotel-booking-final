@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
-from hotel_service.services.hotel_service import get_hotel_details
+from services.hotel_service import get_hotel_details
 from app import db
-from hotel_service.models.room_model import Room
+from models.room_model import Room
 from datetime import datetime
 hotel_bp = Blueprint("hotel", __name__)
 from urllib.parse import unquote 
