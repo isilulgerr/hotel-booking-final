@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from comments_service.services.comments_service import add_comment, get_comments_with_averages
+from services.comments_service import add_comment, get_comments_with_averages
 
 comments_bp = Blueprint("comments", __name__)
 
