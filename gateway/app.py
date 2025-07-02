@@ -4,7 +4,10 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-
+@app.after_request
+def remove_encoding_headers(response):
+    response.headers.pop('Content-Encoding', None)  # 💥 Çıkar
+    return response
 # 🔗 Servis URL'leri (base root, path eklenecek)
 SERVICE_MAP = {
     "admin": "https://admin-service-8014.onrender.com",
