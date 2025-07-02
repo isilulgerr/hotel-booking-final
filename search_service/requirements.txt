@@ -11,4 +11,6 @@ gunicorn
 redis
 psycopg2-binary
 flask_sqlalchemy
-openai>=1.0.0
+openai>=1.0.0Flask
+flask-cors
+Flask-SQLAlchemy
