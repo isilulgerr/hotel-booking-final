@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from agent_service.services.ai_agent import parse_intent_message
+from services.ai_agent import parse_intent_message
 
 agent_bp = Blueprint("agent", __name__)
 

@@ -11,6 +11,9 @@ CORS(app)
 
 # OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
+# en sona ekle
+from routes.agent_routes import agent_bp
+app.register_blueprint(agent_bp, url_prefix="/api/v1/agent")
 
 @app.route("/api/v1/ai/parse", methods=["POST"])
 def parse_message():
