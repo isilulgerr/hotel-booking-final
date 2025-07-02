@@ -47,9 +47,6 @@ This project is **modular** and follows a **service-oriented architecture (SoA)*
 
 ## 🧱 Data Models (Simplified ER Diagram)
 
-```mermaid
-erDiagram
-
 ROOM {
   int room_id PK
   string hotel_name FK
