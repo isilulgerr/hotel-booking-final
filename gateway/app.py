@@ -10,7 +10,7 @@ CORS(app)  # 👈 Bu satırı mutlaka ekle
 
 # Servis URL'leri (LOCAL için ayarlıdır, production'da değiştirebilirsin)
 SERVICE_MAP = {
-    "admin": "https://admin-service-8014.onrender.com",
+    "admin": "https://admin-service-8014.onrender.com/api/v1/admin",
     "agent": "https://agent-service-v59b.onrender.com",
     "booking": "https://book-service-9dtv.onrender.com",
     "comments": "https://comments-service-o4l5.onrender.com",
@@ -23,7 +23,7 @@ SERVICE_MAP = {
 # JWT token'ı varsa al
 def forward_headers():
     token = request.headers.get("Authorization")
-    headers = {}
+    headers = {"Content-Type": "application/json"}
     if token:
         headers["Authorization"] = token
     return headers
@@ -49,7 +49,8 @@ def proxy(service, path):
         else:
             return jsonify({"error": "Unsupported method"}), 405
 
-        return (resp.text, resp.status_code, resp.headers.items())
+        return (resp.content, resp.status_code, resp.headers.items())
+
 
     except Exception as e:
         print("❌ Proxy Error:", str(e))
