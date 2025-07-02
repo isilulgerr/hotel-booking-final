@@ -48,7 +48,8 @@ def proxy(service, path):
         else:
             return jsonify({"error": "Unsupported method"}), 405
 
-        return (resp.content, resp.status_code, resp.headers.items())
+        return (resp.text, resp.status_code, resp.headers.items())
+
 
     except Exception as e:
         print("❌ Proxy Error:", str(e))
