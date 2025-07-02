@@ -17,7 +17,7 @@ function HotelDetailPage() {
         service_type: "room"
     });
     const [selectedRoomId, setSelectedRoomId] = useState(null);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTMyOTIxOCwianRpIjoiYWQ2ZjA2ZjAtZmI3Ni00NmY2LTg0ZDAtZDY1ZThiMmFmY2JiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxMzI5MjE4LCJjc3JmIjoiMTZkZGMzYWMtNDVkMi00ZWI1LThkNGYtY2RjYTVkZjJhZmE3IiwiZXhwIjoxNzUxMzMwMTE4fQ.qmpvhfWPAoRVEuV8ca8m7ODiXlQLFBEhOs_e7-0GYBM"; // elle girilen token
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTQ4MTE5NywianRpIjoiMzNkOTE2ODEtZDI3OC00NzZlLTkzY2ItNDc3NzkyYjEzMGIxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxNDgxMTk3LCJjc3JmIjoiMTFjMGU2ZTMtYWRkYy00NmU4LTkwZjYtZjFmNjZlODY1ZDkzIiwiZXhwIjoxNzUxNDgyMDk3fQ.LfKNHwUqJRLEajeqH_IFP0MBGNFB3vjbPnLgitSykVE"; // elle girilen token
     const isLoggedIn = Boolean(token);
 
     useEffect(() => {
@@ -29,7 +29,8 @@ function HotelDetailPage() {
         const fetchHotelDetails = async () => {
             setIsLoading(true);
             try {
-                const res = await axios.get(`http://localhost:8000/hotel/${hotelName}`);
+                const res = await axios.get(`https://gateway-final.onrender.com/api/v1/hotel/hotel/${hotelName}`);
+
                 if (!res.data || res.data.length === 0) {
                     setError("No rooms found for this hotel.");
                 } else {
@@ -44,10 +45,10 @@ function HotelDetailPage() {
 
         fetchHotelDetails();
     }, [hotelName]);
-
-    const fetchComments = async (roomId) => {
+    
+    const fetchComments = async (hotelName) => {
         try {
-            const res = await axios.get(`http://localhost:8000/comments/room-comments/${roomId}`);
+            const res = await axios.get(`https://gateway-final.onrender.com/api/v1/comments/${hotelName}`);
             setComments(res.data.comments);
             setAverages(res.data.service_averages);
         } catch (err) {
@@ -72,7 +73,7 @@ function HotelDetailPage() {
                 created_at: new Date().toISOString()
             };
 
-            const response = await axios.post("http://localhost:8000/comments/add-comment", commentData);
+            const response = await axios.post("https://gateway-final.onrender.com/api/v1/comments/add", commentData);
             if (response.data.error) throw new Error(response.data.error);
 
             alert("Comment added successfully!");
@@ -105,7 +106,7 @@ function HotelDetailPage() {
         }
 
         try {
-            const res = await axios.post("http://localhost:8000/booking/book-room", {
+            const res = await axios.post("https://gateway-final.onrender.com/api/v1/book/book-room", {
                 room_id: roomId,
                 people,
                 check_in: checkIn,

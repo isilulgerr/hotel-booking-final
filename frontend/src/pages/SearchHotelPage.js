@@ -42,7 +42,7 @@ function SearchHotelPage() {
 
   const handleChatSubmit = async () => {
     try {
-      const res = await axios.post("http://localhost:8000/gateway/message", { message });
+      const res = await axios.post("https://gateway-final.onrender.com/gateway/message", { message });
       setChatResponse(res.data);
     } catch (err) {
       console.error("Chatbot error:", err);
@@ -93,9 +93,10 @@ function SearchHotelPage() {
       const formattedCheckOut = convertToIso(checkOut);
       
       // 1. First fetch hotels from API
-      const res = await axios.get("http://localhost:8000/search/search-hotels", {
+      const res = await axios.get("https://gateway-final.onrender.com/api/v1/search/search-hotels", {
         params: { city, check_in: formattedCheckIn, check_out: formattedCheckOut, people },
-        headers: token ? { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTM5MzQxMiwianRpIjoiYTc0MjNlYzktZjg1ZS00YjE0LWJjNjktNDkzN2JmOWEyYWJiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxMzkzNDEyLCJjc3JmIjoiYzZiNzIxNTYtMjgzZC00ZjRjLThkMjctMmZmMjJiMGRjNmYzIiwiZXhwIjoxNzUxMzk0MzEyfQ.n105s5H0Rb9Vck7u4TfrlAVt7Ev7wbTSYfH0IPl2L04` } : {}
+        headers: token ? { "Accept-Encoding": "identity", Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTQ4MjE3OCwianRpIjoiODBiMmRiNWYtZjFkZS00OWM5LWJlOTQtYjY4MTE0MWE3NWQ4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzUxNDgyMTc4LCJjc3JmIjoiOGM5YTNmMzktNTkwZC00ZjFhLWJkOTMtNTI5ODhhNGUxZmU3IiwiZXhwIjoxNzUxNDgzMDc4fQ.vmoWxzYMq8tE-7q4VXoewSVtAQjrmltpRgoqIdU1QSA` } : {}
+        
       });
 
       debugMessages.push(`${res.data.results.length} hotels found`);
