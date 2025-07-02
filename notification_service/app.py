@@ -32,10 +32,26 @@ scheduler.start()
 
 # 📨 RABBITMQ DINLEYICI
 def start_rabbitmq_listener():
-    rabbitmq_url = os.getenv("RABBITMQ_URL")
-    if not rabbitmq_url:
-        print("❌ RABBITMQ_URL not set.")
-        return
+    try:
+        rabbitmq_url = os.getenv("RABBITMQ_URL")
+        print(f"🔗 Connecting to RabbitMQ: {rabbitmq_url}")
+        params = pika.URLParameters(rabbitmq_url)
+        connection = pika.BlockingConnection(params)
+        channel = connection.channel()
+        channel.queue_declare(queue='reservation_queue', durable=True)
+
+        def callback(ch, method, properties, body):
+            data = json.loads(body)
+            print("📥 Received message:", data)
+            send_reservation_notification(data)
+
+        channel.basic_consume(queue='reservation_queue', on_message_callback=callback, auto_ack=True)
+        print("🐇 RabbitMQ listener started.")
+        channel.start_consuming()
+    
+    except Exception as e:
+        print("❌ RabbitMQ connection failed:", str(e))
+
 
     params = pika.URLParameters(rabbitmq_url)
     connection = pika.BlockingConnection(params)
