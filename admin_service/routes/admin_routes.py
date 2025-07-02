@@ -7,7 +7,7 @@ admin_bp = Blueprint("admin", __name__)
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "1234"
 
-@admin_bp.route("/admin/login", methods=["POST"])
+@admin_bp.route("/login", methods=["POST"])
 def admin_login():
     data = request.get_json()
     username = data.get("username")
@@ -19,7 +19,7 @@ def admin_login():
     else:
         return jsonify(msg="Invalid credentials"), 401
 
-@admin_bp.route("/admin/add-room", methods=["POST"])
+@admin_bp.route("/add-room", methods=["POST"])
 @jwt_required()
 def add_room():
     data = request.get_json()
@@ -35,7 +35,7 @@ def add_room():
     ), 201
 
 
-@admin_bp.route("/admin/update-room/<int:room_id>", methods=["PUT"])
+@admin_bp.route("/update-room/<int:room_id>", methods=["PUT"])
 @jwt_required()
 def update_room(room_id):
     data = request.get_json()
