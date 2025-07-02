@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from notification_service.services.notification_service import notify_user
+from services.notification_service import notify_user
 
 notification_bp = Blueprint("notifications", __name__)
 
