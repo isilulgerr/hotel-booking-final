@@ -28,12 +28,12 @@ def forward_headers():
         headers["Authorization"] = token
     return headers
 
-@app.route("/<service>/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
+@app.route("/api/v1/<service>/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
 def proxy(service, path):
     if service not in SERVICE_MAP:
         return jsonify({"error": "Unknown service"}), 404
 
-    target_url = f"{SERVICE_MAP[service]}/{path}"
+    target_url = f"{SERVICE_MAP[service]}/api/v1/{service}/{path}"
     method = request.method
     headers = forward_headers()
 
