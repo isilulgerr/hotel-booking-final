@@ -110,7 +110,7 @@ COMMENT {
 ## 👩‍💻 Developed By
 
 **Işıl Ülger**  
-Software Engineering Student  
+Computer Engineering Student  
 **Course:** SE4458 – Software Architecture Final Project  
 **Instructor:** Barış Ceyhan
 
