@@ -1,49 +1,54 @@
-🏨 Hotel Booking System – AI Enhanced
+# 🏨 Hotel Booking System – AI Enhanced
+
 This is a hotel booking web application that allows users to:
 
-🔍 Search for available hotel rooms
+- 🔍 Search for available hotel rooms  
+- 💬 View and leave comments  
+- 🛎️ Book rooms with JWT-based discounts  
+- 🤖 Interact with an AI assistant for natural language queries  
 
-💬 View and leave comments
+An **admin panel** is also included for adding/updating hotel room information.
 
-🛎️ Book rooms with JWT-based discounts
+---
 
-🤖 Interact with an AI assistant for natural language queries
+## 🚀 Final Deployment Links
 
-An admin panel is also included for adding/updating hotel room information.
+| Component     | URL |
+|---------------|-----|
+| 🌐 Frontend    | http://localhost:3000 *(local)* |
+| 🔗 Gateway API | [https://gateway-final.onrender.com](https://gateway-final.onrender.com) |
+| 🤖 AI Agent    | [https://agent-service-v59b.onrender.com](https://agent-service-v59b.onrender.com) |
 
-🚀 Final Deployment Links
-Component	URL
-🌐 Frontend	http://localhost:3000
-🔗 Gateway API	https://gateway-final.onrender.com
-🤖 AI Agent	https://agent-service-v59b.onrender.com
+✅ *All frontend API calls are routed through the Gateway for proper orchestration.*
 
-✅ All frontend API calls are routed through the Gateway for proper orchestration.
+---
 
-🧠 Project Design
-This project is modular and follows a service-oriented architecture (SoA):
+## 🧠 Project Design
 
-Frontend: React + React Router + Axios + Leaflet
+This project is **modular** and follows a **service-oriented architecture (SoA)**:
 
-Gateway (API Aggregator): Flask; routes and coordinates calls between services
+- **Frontend**: React + React Router + Axios + Leaflet  
+- **Gateway (API Aggregator)**: Flask-based router between services  
+- **AI Agent Service**: Extracts hotel-related intent using OpenAI  
+- **Admin, Booking, Search, Comment Services**: Flask-based REST APIs  
+- **Database**: PostgreSQL via Render  
+- **Comments DB**: Firebase Firestore (NoSQL)
 
-AI Agent Service: Extracts intent and parameters from user messages
+---
 
-Admin, Booking, Search, Comment Services: REST APIs built with Flask
+## 📌 Assumptions
 
-Database: PostgreSQL (via Render)
+- 👤 There is only one admin user: `admin` / `1234`  
+- 🧠 All AI interactions return structured JSON (e.g., `{ intent, city, check_in, ... }`)  
+- 🏨 Hotel names are unique; each room belongs to one hotel  
+- 🔐 JWT tokens are stored in `localStorage` and sent with each request  
 
-Comments DB: Firebase Firestore (NoSQL)
+---
 
-📌 Assumptions
-There is only one admin user: admin / 1234
+## 🧱 Data Models (Simplified ER Diagram)
 
-All AI interactions return structured JSON like { intent, city, check_in, ... }
-
-Each room belongs to one hotel; hotel names are unique
-
-JWT tokens are stored in localStorage and automatically attached to requests
-
-🧱 Data Models (Simplified ER Diagram)
+```mermaid
+erDiagram
 
 ROOM {
   int room_id PK
@@ -73,21 +78,40 @@ COMMENT {
   string service_type
   datetime created_at
 }
+```
 ☝️ Comments are stored in Firestore, not PostgreSQL.
 
-⚠️ Issues Encountered
-net::ERR_CONTENT_DECODING_FAILED error from Render due to gzip decoding → Solved by removing invalid headers
+---
 
-AI service sometimes returned incorrect intents → Mitigated with better prompt formatting
+## ⚠️ Issues Encountered
 
-LocationIQ rate limits occasionally interfered with geocoding → Implemented fallback logic
+- ❌ **net::ERR_CONTENT_DECODING_FAILED**  
+  → Resolved by removing the `"Accept-Encoding"` header from client requests.
 
-Firestore integration in frontend required async/await wrapper fixes
+- 🧠 **Incorrect AI intent parsing**  
+  → Improved prompt formatting and added fallback logic for robustness.
 
-🎬 Project Demo Video 
-📽️ Click here to watch the demo
+- 📉 **LocationIQ rate limits**  
+  → Implemented fallback geocoding using only the city name when hotel-level geocoding fails.
 
-👩‍💻 Developed By
-Işıl Ülger – Software Engineering Student
-Course: SE4458 – Software Architecture Final Project
-Instructor: Barış Ceyhan
+- 🔄 **Firebase comment integration**  
+  → Required handling Firestore with `async/await` and refactoring component logic for comment sync.
+
+---
+
+## 🎬 Project Demo Video
+
+📽️ **Watch the demo here:** [Click to Watch](https://www.youtube.com/watch?v=your-demo-link)
+
+> *(Replace with your actual video URL)*
+
+---
+
+## 👩‍💻 Developed By
+
+**Işıl Ülger**  
+Computer Engineering Student  
+**Course:** SE4458 – Software Architecture Final Project  
+**Instructor:** Barış Ceyhan
+
+---
