@@ -47,6 +47,9 @@ This project is **modular** and follows a **service-oriented architecture (SoA)*
 
 ## 🧱 Data Models (Simplified ER Diagram)
 
+```mermaid
+erDiagram
+
 ROOM {
   int room_id PK
   string hotel_name FK
@@ -75,7 +78,7 @@ COMMENT {
   string service_type
   datetime created_at
 }
-
+```
 ☝️ Comments are stored in Firestore, not PostgreSQL.
 
 ---
