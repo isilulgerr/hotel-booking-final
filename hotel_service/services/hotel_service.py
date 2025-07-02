@@ -12,10 +12,10 @@ def get_hotel_details(hotel_name):
     cache_key = f"hotel:{hotel_name.lower()}"
     
     # 1. Redis'te varsa getir
-    #cached = redis_client.get(cache_key)
-    #if cached:
-    #    print("🔁 Cache hit!")
-    #    return json.loads(cached)
+    cached = redis_client.get(cache_key)
+    if cached:
+        print("🔁 Cache hit!")
+        return json.loads(cached)
 
 
     #print("❌ Cache miss, pulling from DB...")
@@ -37,7 +37,7 @@ def get_hotel_details(hotel_name):
 } for room in rooms]
 
     # Redis'e 1 saatlik TTL ile yaz
-    #redis_client.setex(cache_key, 3600, json.dumps(data))
+    redis_client.setex(cache_key, 3600, json.dumps(data))
 
     return data
 
