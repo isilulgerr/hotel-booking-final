@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import json
 import firebase_admin
 from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
-
+from google.oauth2 import service_account
+from google.cloud import firestore
 # Ortam değişkenlerini yükle (.env varsa)
 load_dotenv()
 
@@ -13,11 +15,9 @@ app = Flask(__name__)
 CORS(app)
 
 # Firestore bağlantısı başlat
-if not firebase_admin._apps:
-    cred = credentials.Certificate("firebase_key.json")  # 🔐 Firebase admin key JSON dosyası
-    firebase_admin.initialize_app(cred)
-
-db = firestore.client()
+firebase_key_dict = json.loads(os.getenv("FIREBASE_KEY_JSON"))
+credentials = service_account.Credentials.from_service_account_info(firebase_key_dict)
+db = firestore.Client(credentials=credentials, project=firebase_key_dict["project_id"])
 comments_ref = db.collection("comments")
 
 @app.route("/api/v1/comments/add", methods=["POST"])
