@@ -32,6 +32,7 @@ scheduler.start()
 
 # 📨 RABBITMQ DINLEYICI
 def start_rabbitmq_listener():
+    Thread(target=start_rabbitmq_listener, daemon=True).start()
     try:
         rabbitmq_url = os.getenv("RABBITMQ_URL")
         print(f"🔗 Connecting to RabbitMQ: {rabbitmq_url}")
